@@ -13,6 +13,11 @@ export class TutorialService {
         return doc
     }
 
+    async update(id: string, obj: TutorialModel) {
+        const doc = this.model.findByIdAndUpdate(id, obj).exec();
+        return doc
+    }
+
     async find(query: any) {
         const list = await this.model.find(query).exec();
         return list;

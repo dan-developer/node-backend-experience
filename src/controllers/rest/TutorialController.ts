@@ -1,4 +1,4 @@
-import {BodyParams, Controller, Delete, Get, PathParams, Post} from "@tsed/common";
+import {BodyParams, Controller, Delete, Get, PathParams, Post, Put} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {TutorialModel} from "../../models/TutorialModel";
 import {TutorialService} from "../../services/TutorialService";
@@ -10,6 +10,16 @@ import {Description, Required, Summary} from "@tsed/schema";
 export class TutorialController {
     constructor(private tutorialService: TutorialService) {
 
+    }
+
+    /**
+     * Return all tutorials from database
+     */
+    @Get("/")
+    @Summary("Return all tutorials from database")
+    async getAll(): Promise<TutorialModel[]> {
+        const list = await this.tutorialService.find({});
+        return list;
     }
 
     /**
@@ -36,19 +46,11 @@ export class TutorialController {
         return this.tutorialService.save(tutorial);
     }
 
-    /**
-     *
-     * @param id
-     * @param tutorial
-     * @returns {Promise<TutorialModel>}
-     */
-    @Post("/:id")
+    @Put("/:id")
     @Summary("Update a tutorial")
     async update(@PathParams("id") @Required() id: string,
-                 @BodyParams() @Required() tutorial: TutorialModel): Promise<TutorialModel> {
-        tutorial._id = id;
-
-        return this.tutorialService.save(tutorial);
+                 @BodyParams() @Required() tutorial: TutorialModel) {
+        return this.tutorialService.update(id, tutorial);
     }
 
     /**
