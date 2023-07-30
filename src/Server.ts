@@ -16,6 +16,9 @@ import * as pages from "./controllers/pages/index";
   httpsPort: false, // CHANGE
   disableComponentsScan: true,
   mount: {
+    "/api": [
+      ...Object.values(rest)
+    ],
     "/rest": [
       ...Object.values(rest)
     ],
