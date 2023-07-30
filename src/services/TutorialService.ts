@@ -2,31 +2,29 @@ import {Inject, Injectable} from "@tsed/di";
 import {MongooseModel} from "@tsed/mongoose";
 import {TutorialModel} from "../models/TutorialModel";
 
+
 @Injectable()
 export class TutorialService {
-    @Inject(TutorialModel)
-    private Tutorial: MongooseModel<TutorialModel>;
+    @Inject(TutorialModel) private model: MongooseModel<TutorialModel>;
 
-    /**
-     * Find a TutorialModel by his ID.
-     * @param id
-     * @returns {undefined|TutorialModel}
-     */
-    async find(id: string): Promise<TutorialModel | null> {
-        return await this.Tutorial.findById(id).exec();
+    async save(obj: TutorialModel) {
+        const doc = new this.model(obj);
+        await doc.save();
+        return doc
     }
 
-    async save(tutorial: TutorialModel) {
-        const tutorialModel = new this.Tutorial(tutorial);
-        await tutorialModel.validate();
-        return tutorialModel;
+    async find(query: any) {
+        const list = await this.model.find(query).exec();
+        return list;
     }
 
-    /**
-     * Delete a TutorialModel by ID.
-     * @param id
-     */
-    async remove(id: string): Promise<void> {
-        await this.Tutorial.findByIdAndDelete(id).exec();
+    async findByID(id: string) {
+        const doc = await this.model.findById(id).exec();
+        return doc;
+    }
+
+    async delete(id: string) {
+        const doc = await this.model.findByIdAndDelete(id).exec();
+        return doc;
     }
 }
