@@ -12,7 +12,7 @@ import * as pages from "./controllers/pages/index";
 @Configuration({
   ...config,
   acceptMimes: ["application/json"],
-  httpPort: process.env.PORT || 8083,
+  httpPort: process.env.PORT || 30008,
   httpsPort: false, // CHANGE
   disableComponentsScan: true,
   mount: {
